@@ -1,51 +1,40 @@
-import React, { useState } from "react";
 import styles from "./DragAndDropComponent.module.scss";
+import classnames from "classnames";
+import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent";
 
-const DragAndDrop = props => {
-  const [videoSrc, setVideoSrc] = useState();
-
-  const handleDragEnter = e => {
+const DragAndDropComponent = ({ addedVideos, handleDrop }) => {
+  const handleDragEnterInternal = e => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDragLeave = e => {
+  const handleDragLeaveInternal = e => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDragOver = e => {
+  const handleDragOverInternal = e => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const handleDrop = e => {
+  const handleDropInternal = e => {
     e.preventDefault();
     e.stopPropagation();
 
-    for (let file of e.dataTransfer.files) {
-      var reader = new FileReader();
-
-      reader.onload = function (data) {
-        const videoSrc = window.URL.createObjectURL(new Blob([data.currentTarget.result], { type: "video/mp4" }));
-        setVideoSrc(videoSrc);
-      };
-
-      reader.readAsArrayBuffer(file);
-    }
+    handleDrop && handleDrop(e);
   };
 
   return (
     <>
       <div
-        className={styles["drag-drop-zone"]}
-        onDrop={e => handleDrop(e)}
-        onDragOver={e => handleDragOver(e)}
-        onDragEnter={e => handleDragEnter(e)}
-        onDragLeave={e => handleDragLeave(e)}
+        className={addedVideos.length ? classnames(styles["drag-drop-zone"], styles["not-empty"]) : styles["drag-drop-zone"]}
+        onDrop={e => handleDropInternal(e)}
+        onDragOver={e => handleDragOverInternal(e)}
+        onDragEnter={e => handleDragEnterInternal(e)}
+        onDragLeave={e => handleDragLeaveInternal(e)}
       >
-        <p>Drag files here to upload</p>
+        {addedVideos.length ? addedVideos.flatMap(v => v.thumbnails.map(t => <ThumbnailComponent imgSrc={t} />)) : <p>Drag files here to upload</p>}
       </div>
-      <video src={videoSrc} {...(videoSrc ? { controls: true } : {})}></video>
     </>
   );
 };
 
-export default DragAndDrop;
+export default DragAndDropComponent;

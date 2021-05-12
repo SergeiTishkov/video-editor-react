@@ -1,10 +1,14 @@
 
 .drag-drop-zone {
-  padding: 2rem;
+  padding: 7px;
   text-align: center;
-  background: #07f;
+  background: rgb(20, 30, 43);
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #c0c0c0;
+
+  &.not-empty {
+    text-align: left;
+  }
 }
 .drag-drop-zone p {
   color: #fff;
