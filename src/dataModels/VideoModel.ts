@@ -1,10 +1,4 @@
 export default class VideoModel {
-  /**Video in byte format */
-  arrayBuffer?: ArrayBuffer;
-
-  /**Media type of the video */
-  type?: string;
-
   /**Prepared Blob from arrayBuffer and type */
   blob?: Blob;
 
