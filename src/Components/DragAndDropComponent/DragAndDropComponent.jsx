@@ -31,6 +31,7 @@ const DragAndDropComponent = ({ addedVideos, handleDrop }) => {
         onDragEnter={e => handleDragEnterInternal(e)}
         onDragLeave={e => handleDragLeaveInternal(e)}
       >
+        <span className={styles["play-marker"]} />
         {addedVideos.length ? addedVideos.flatMap(v => v.thumbnails.map(t => <ThumbnailComponent imgSrc={t} />)) : <p>Drag files here to upload</p>}
       </div>
     </>
