@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./App.css";
-import { extractFramesFromVideo } from "utils/extractFramesFromVideo";
+import { extractVideoModelFromBlob } from "utils/extractVideoModelFromBlob";
 import VideoPlayerComponent from "./Components/VideoPlayerComponent/VideoPlayerComponent";
 import DragAndDropComponent from "./Components/DragAndDropComponent/DragAndDropComponent";
-import VideoModel from "dataModels/VideoModel"
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
@@ -11,11 +10,7 @@ function App() {
   const fileReaderOnLoad = async data => {
     const videoBlob = new Blob([data.currentTarget.result], { type: "video/mp4" });
 
-    const videoSrc = window.URL.createObjectURL(videoBlob);
-
-    const frames = await extractFramesFromVideo(videoBlob);
-
-    const newVideo = new VideoModel(videoBlob, videoSrc, frames);
+    const newVideo = await extractVideoModelFromBlob(videoBlob);
 
     setAddedVideos([...addedVideos, newVideo]);
   };
@@ -24,7 +19,7 @@ function App() {
     for (const file of e.dataTransfer.files) {
       const reader = new FileReader();
 
-      reader.onload = fileReaderOnLoad
+      reader.onload = fileReaderOnLoad;
 
       reader.readAsArrayBuffer(file);
     }

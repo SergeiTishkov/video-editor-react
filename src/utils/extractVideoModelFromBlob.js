@@ -1,4 +1,6 @@
-export async function extractFramesFromVideo(videoBlob, imageInterval = 0.25) {
+import VideoModel from "dataModels/VideoModel"
+
+export async function extractVideoModelFromBlob(videoBlob, imageInterval = 0.25) {
   return new Promise(async resolve => {
     let videoObjectUrl = URL.createObjectURL(videoBlob);
     let video = document.createElement("video");
@@ -39,6 +41,9 @@ export async function extractFramesFromVideo(videoBlob, imageInterval = 0.25) {
 
       currentTime += imageInterval;
     }
-    resolve(frames);
+
+    const result = new VideoModel(videoBlob, videoObjectUrl, frames, duration);
+
+    resolve(result);
   });
 }
