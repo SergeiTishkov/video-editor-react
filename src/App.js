@@ -62,6 +62,7 @@ function App() {
     <div className="App">
       {addedVideos?.map((v, i) => (
         <VideoPlayerComponent
+          key={v.objectUrl}
           ref={i === currentVideoIndex ? currentVideoRef : null}
           videoSrc={v.objectUrl}
           active={i === currentVideoIndex}
