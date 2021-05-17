@@ -31,12 +31,17 @@ const DragAndDropComponent = ({ addedVideos, handleDrop, currentTime }) => {
         onDragEnter={e => handleDragEnterInternal(e)}
         onDragLeave={e => handleDragLeaveInternal(e)}
       >
-        <span style={{ marginLeft: `${currentTime * 100}px` }} className={styles["play-marker"]} />
-        {addedVideos.length ? (
-          addedVideos.flatMap(v => v.thumbnails.map((t, i) => <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} />))
-        ) : (
-          <p>Drag videos here to play them</p>
-        )}
+        <div>
+          {addedVideos.length ? (
+            addedVideos.flatMap(v => v.thumbnails.map((t, i) => <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} />))
+          ) : (
+            <p>Drag videos here to play them</p>
+          )}
+        </div>
+
+        <div className={styles["play-marker-container"]}>
+          <span style={{ marginLeft: `${currentTime * 100}px` }} className={styles["play-marker"]} />
+        </div>
       </div>
     </>
   );

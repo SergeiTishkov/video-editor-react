@@ -1,6 +1,8 @@
 .drag-drop-zone {
   padding: 7px;
   text-align: center;
+  overflow: auto;
+  white-space: nowrap;
   background: rgb(20, 30, 43);
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #c0c0c0;
@@ -17,9 +19,10 @@
     }
   }
 
-  .play-marker {
-    // will be replaced with "initial" when .not-empty is on the parent
-    display: none;
+  .play-marker-container {
+    position: relative;
+    top: -21px;
+    height: 0px;
   }
 
   &.inside-drag-area {
@@ -29,4 +32,10 @@
   p {
     color: #fff;
   }
+}
+
+.play-marker {
+  // will be replaced with "initial" when .not-empty is on the parent;
+  // displayed outside to prevent having to big CSS score
+  display: none;
 }
