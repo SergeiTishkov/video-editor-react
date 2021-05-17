@@ -1,8 +1,11 @@
+import { MutableRefObject } from "react";
+
 export default class VideoModel {
   blob: Blob;
   objectUrl: string;
   thumbnails: string[];
   duration: number;
+  ref?: MutableRefObject<undefined>;
 
   /**
    * Constructor of VideoModel
