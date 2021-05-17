@@ -2,7 +2,7 @@ import styles from "./DragAndDropComponent.module.scss";
 import classnames from "classnames";
 import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent";
 
-const DragAndDropComponent = ({ addedVideos, handleDrop }) => {
+const DragAndDropComponent = ({ addedVideos, handleDrop, currentTime }) => {
   const handleDragEnterInternal = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -31,7 +31,7 @@ const DragAndDropComponent = ({ addedVideos, handleDrop }) => {
         onDragEnter={e => handleDragEnterInternal(e)}
         onDragLeave={e => handleDragLeaveInternal(e)}
       >
-        <span className={styles["play-marker"]} />
+        <span style={{ marginLeft: `${currentTime * 100}px` }} className={styles["play-marker"]} />
         {addedVideos.length ? addedVideos.flatMap(v => v.thumbnails.map(t => <ThumbnailComponent imgSrc={t} />)) : <p>Drag files here to upload</p>}
       </div>
     </>

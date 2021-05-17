@@ -6,6 +6,7 @@ import DragAndDropComponent from "./Components/DragAndDropComponent/DragAndDropC
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const fileReaderOnLoad = async data => {
     const videoBlob = new Blob([data.currentTarget.result], { type: "video/mp4" });
@@ -25,10 +26,15 @@ function App() {
     }
   };
 
+  const onVideoTimeUpdate = (e, v) => {
+    console.log(v.currentTime)
+    setCurrentTime(v.currentTime)
+  };
+
   return (
     <div className="App">
-      <VideoPlayerComponent videoSrc={addedVideos?.[0]?.objectUrl} />
-      <DragAndDropComponent addedVideos={addedVideos} handleDrop={handleFileDrop} />
+      <VideoPlayerComponent videoSrc={addedVideos?.[0]?.objectUrl} onTimeUpdate={onVideoTimeUpdate} />
+      <DragAndDropComponent addedVideos={addedVideos} handleDrop={handleFileDrop} currentTime={currentTime}/>
     </div>
   );
 }
