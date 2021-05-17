@@ -9,8 +9,8 @@ function App() {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const currentVideoRef = useRef();
 
-  // stands for the time of the application, that means, if user has 2 videos without a break
-  // 10 seconds long each, and the active video is on 6th second then currentTime is 16
+  // stands for all the time of the video, i.e. if user has 2 videos without a break 10 seconds long each,
+  // and the active video is on 6th second then currentTime is 16 seconds
   const [currentTime, setCurrentTime] = useState(0);
 
   const fileReaderOnLoad = async data => {
@@ -21,6 +21,10 @@ function App() {
     setAddedVideos([...addedVideos, newVideo]);
   };
 
+  /**
+   * Saves dropped file to the state.
+   * @param {*} e Drag and drop event 
+   */
   const handleFileDrop = e => {
     for (const file of e.dataTransfer.files) {
       const reader = new FileReader();
@@ -31,6 +35,11 @@ function App() {
     }
   };
 
+  /**
+   * Moves the red line of the current playing moment on the frame ribbon
+   * @param {*} e - timeUpdateEvent
+   * @param {*} v - the <video> HTML element
+   */
   const onVideoTimeUpdate = (e, v) => {
     const allVideosBeforeCurrentOne = addedVideos.slice(0, currentVideoIndex);
 
@@ -39,6 +48,10 @@ function App() {
     setCurrentTime(lengthOfPreviousVideos + v.currentTime);
   };
 
+  /**
+   * Hides the ended video and shows the next one. The next one will be the first one in the list
+   * if the ended video was the pre-last.
+   */
   const onVideoEnded = () => {
     const nextVideoExists = !!addedVideos[currentVideoIndex + 1];
 
@@ -51,8 +64,11 @@ function App() {
     }
   };
 
+  /**
+   * Starts next video on the end of the previous one if the ended video was not the last one 
+   */
   useEffect(() => {
-    // if current video is loaded and is not the first one (prevents loop replay again and again)
+    // if current video is loaded (false on just loaded web page) and is not the first one (prevents loop replay again and again)
     if (currentVideoRef.current?.video?.duration && currentVideoIndex !== 0) {
       currentVideoRef.current.video.play();
     }
