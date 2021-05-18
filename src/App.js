@@ -65,10 +65,12 @@ function App() {
   };
 
   /**
-   * Starts next video on the end of the previous one if the ended video was not the last one 
+   * Starts next video on the end of the previous one. If the ended video was the last one, it won't be started.
+   * useEffect fires after setCurrentVideoIndex so it starts the <video> that is made visible by setCurrentVideoIndex.
    */
   useEffect(() => {
-    // if current video is loaded (false on just loaded web page) and is not the first one (prevents loop replay again and again)
+    // if current video is loaded (false on just loaded web page) and is not the first one
+    // (doesn't start the first video again after all videos are ended)
     if (currentVideoRef.current?.duration && currentVideoIndex !== 0) {
       currentVideoRef.current.play();
     }
