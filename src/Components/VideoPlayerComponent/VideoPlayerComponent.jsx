@@ -31,7 +31,7 @@ const VideoPlayerComponent = ({ videoSrc, active, onTimeUpdate, onEnded }, ref) 
   };
 
   return (
-    <div className={classNames(styles["component-container"], videoSrc && active ? "" : styles["no-content"])}>
+    <div className={classNames(styles["component-container"], !videoSrc || !active ? styles["no-content"] : "")}>
       <div className={styles["video-container"]}>
         <video height="500" ref={videoRef} src={videoSrc} onTimeUpdate={e => onTimeUpdate && onTimeUpdate(e, videoRef.current)} onEnded={onEndedInternal} />
       </div>
