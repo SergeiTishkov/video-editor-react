@@ -1,8 +1,8 @@
-import styles from "./DragAndDropComponent.module.scss";
+import styles from "./FrameRibbonComponent.module.scss";
 import classnames from "classnames";
 import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent";
 
-const DragAndDropComponent = ({ addedVideos, handleDrop, currentTime }) => {
+const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
   const handleDragEnterInternal = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -47,4 +47,4 @@ const DragAndDropComponent = ({ addedVideos, handleDrop, currentTime }) => {
   );
 };
 
-export default DragAndDropComponent;
+export default FrameRibbonComponent;

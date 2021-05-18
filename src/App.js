@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import { extractVideoModelFromBlob } from "utils/extractVideoModelFromBlob";
 import VideoPlayerComponent from "./Components/VideoPlayerComponent/VideoPlayerComponent";
-import DragAndDropComponent from "./Components/DragAndDropComponent/DragAndDropComponent";
+import FrameRibbonComponent from "./Components/FrameRibbonComponent/FrameRibbonComponent";
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
@@ -88,7 +88,7 @@ function App() {
           onEnded={onVideoEnded}
         />
       ))}
-      <DragAndDropComponent addedVideos={addedVideos} handleDrop={handleFileDrop} currentTime={currentTime} />
+      <FrameRibbonComponent addedVideos={addedVideos} handleDrop={handleFileDrop} currentTime={currentTime} />
     </div>
   );
 }
