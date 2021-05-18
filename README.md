@@ -9,6 +9,7 @@ Video Editor is a pet project created just for fun. Template for the app is Crea
 4) check the biggest height of the uploaded videos and set the Video height to min value of max video height and 500px
 5) stylize play/pause button (maybe attach it to the Video component from below on black background)
 6) add sum duration, play speed and volume of the video (return default "controls" attribute is bad idea as it has duration of each video)
+7) restyle initial view of the app
 
 # Getting Started with Create React App
 
