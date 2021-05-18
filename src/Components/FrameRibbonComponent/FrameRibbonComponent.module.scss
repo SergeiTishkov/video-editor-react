@@ -7,7 +7,7 @@
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #c0c0c0;
 
-  .thumbnails-container{
+  .frame-ribbon-container{
     display: flex;
     justify-content: center;
   }
@@ -15,8 +15,13 @@
   &.not-empty {
     text-align: left;
 
-    .thumbnails-container{
+    .frame-ribbon-container{
       justify-content: flex-start;
+
+      .one-video-frame-ribbon {
+        display: flex;
+        flex-direction: row;
+      }
     }
 
     .play-marker {

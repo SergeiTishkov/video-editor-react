@@ -48,13 +48,15 @@ const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
         onDragEnter={e => handleDragEnterInternal(e)}
         onDragLeave={e => handleDragLeaveInternal(e)}
       >
-        <div className={styles["thumbnails-container"]}>
+        <div className={styles["frame-ribbon-container"]}>
           {addedVideos.length ? (
-            addedVideos.flatMap(v =>
-              v.thumbnails.map((t, i, a) => (
-                <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, v)} />
-              ))
-            )
+            addedVideos.map(v => (
+              <div className={styles["one-video-frame-ribbon"]}>
+                {v.thumbnails.map((t, i, a) => (
+                  <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, v)} />
+                ))}
+              </div>
+            ))
           ) : (
             <p>Drag videos here to play them</p>
           )}
