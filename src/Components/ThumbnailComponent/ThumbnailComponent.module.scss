@@ -1,3 +1,8 @@
-.img {
-  width: 25px;
+.container {
+  // is added to remove the right part of the last truncated frame
+  overflow: hidden;
+
+  .img {
+    width: 25px;
+  }
 }

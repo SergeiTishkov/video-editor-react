@@ -2,6 +2,23 @@ import styles from "./FrameRibbonComponent.module.scss";
 import classnames from "classnames";
 import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent";
 
+const getFrameThumbnailWidth = (frameIndex, allFrames, videoModel) => {
+  const isLastInArray = frameIndex === allFrames.length - 1;
+
+  if (!isLastInArray) {
+    return 25;
+  }
+
+  const frameDuration = 0.25;
+
+  // get length of the last frame, between 0 and 0.25 seconds
+  const lastFrameDuration = videoModel.duration % frameDuration;
+
+  // we can do that because frame lasts for 0.25 seconds and its default width is 25 px
+  // so 0.25s has 25 px width and, for example, 0.142s should have 14.2px of width
+  return lastFrameDuration * 100;
+};
+
 const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
   const handleDragEnterInternal = e => {
     e.preventDefault();
@@ -31,9 +48,13 @@ const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
         onDragEnter={e => handleDragEnterInternal(e)}
         onDragLeave={e => handleDragLeaveInternal(e)}
       >
-        <div>
+        <div className={styles["thumbnails-container"]}>
           {addedVideos.length ? (
-            addedVideos.flatMap(v => v.thumbnails.map((t, i) => <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} />))
+            addedVideos.flatMap(v =>
+              v.thumbnails.map((t, i, a) => (
+                <ThumbnailComponent key={`${v.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, v)} />
+              ))
+            )
           ) : (
             <p>Drag videos here to play them</p>
           )}

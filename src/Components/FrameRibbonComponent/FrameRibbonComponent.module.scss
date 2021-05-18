@@ -7,8 +7,17 @@
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #c0c0c0;
 
+  .thumbnails-container{
+    display: flex;
+    justify-content: center;
+  }
+
   &.not-empty {
     text-align: left;
+
+    .thumbnails-container{
+      justify-content: flex-start;
+    }
 
     .play-marker {
       display: initial;
