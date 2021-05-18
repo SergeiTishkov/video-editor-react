@@ -12,7 +12,7 @@ const ThumbnailComponent = ({ imgSrc, width = 25 }) => {
 
   return (
     <div style={{ width: `${width}px` }} className={styles["container"]}>
-      <img className={styles["img"]} src={imgSrc} />
+      <img className={styles["img"]} src={imgSrc} draggable="false" />
     </div>
   );
 };
