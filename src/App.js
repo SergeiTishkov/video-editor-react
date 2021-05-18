@@ -69,8 +69,8 @@ function App() {
    */
   useEffect(() => {
     // if current video is loaded (false on just loaded web page) and is not the first one (prevents loop replay again and again)
-    if (currentVideoRef.current?.video?.duration && currentVideoIndex !== 0) {
-      currentVideoRef.current.video.play();
+    if (currentVideoRef.current?.duration && currentVideoIndex !== 0) {
+      currentVideoRef.current.play();
     }
   }, [currentVideoIndex]);
 
