@@ -2,6 +2,13 @@
 
 Video Editor is a pet project created just for fun. Template for the app is Create React App.
 
+# To Do:
+1) make the last frame on the frame ribbon truncated according to the percentage of its length related to 0.25s
+2) make videos draggable along the ribbon
+3) make sure that videos are not colliding with each other OR make them possible to overlap each other.
+4) check the biggest height of the uploaded videos and set the Video height to min value of max video height and 500px
+5) stylize play/pause button (maybe attach it to the Video component from below on black background)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
