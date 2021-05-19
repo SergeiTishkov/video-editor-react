@@ -42,7 +42,7 @@ export async function extractVideoModelFromBlob(videoBlob, imageInterval = 0.25)
       currentTime += imageInterval;
     }
 
-    const result = new VideoModel(videoBlob, videoObjectUrl, frames, duration, video.height, video.width);
+    const result = new VideoModel(videoBlob, videoObjectUrl, frames, duration, video.videoWidth, video.videoHeight);
 
     resolve(result);
   });
