@@ -1,8 +1,8 @@
-import { useState, useRef, useImperativeHandle, forwardRef } from "react";
+import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from "react";
 import styles from "./VideoPlayer.module.scss";
 import classNames from "classnames";
 
-const VideoPlayerComponent = ({ videoSrc, active, onTimeUpdate, onEnded }, ref) => {
+const VideoPlayer = ({ videoSrc, height , active, onTimeUpdate, onEnded }, ref) => {
   const [paused, setPaused] = useState(true);
   const videoRef = useRef();
 
@@ -33,7 +33,13 @@ const VideoPlayerComponent = ({ videoSrc, active, onTimeUpdate, onEnded }, ref) 
   return (
     <div className={classNames(styles["component-container"], !videoSrc || !active ? styles["no-content"] : "")}>
       <div className={styles["video-container"]}>
-        <video height="500" ref={videoRef} src={videoSrc} onTimeUpdate={e => onTimeUpdate?.(e, videoRef.current)} onEnded={onEndedInternal} />
+        <video
+          {...(height ? { height } : {})}
+          ref={videoRef}
+          src={videoSrc}
+          onTimeUpdate={e => onTimeUpdate?.(e, videoRef.current)}
+          onEnded={onEndedInternal}
+        />
       </div>
       <div className={styles["controls-container"]}>
         <button onClick={togglePlayPause}>{paused ? "play" : "pause"}</button>
@@ -42,4 +48,4 @@ const VideoPlayerComponent = ({ videoSrc, active, onTimeUpdate, onEnded }, ref) 
   );
 };
 
-export default forwardRef(VideoPlayerComponent);
+export default forwardRef(VideoPlayer);

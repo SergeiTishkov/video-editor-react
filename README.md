@@ -5,11 +5,10 @@ Video Editor is a pet project created just for fun. Template for the app is Crea
 # To Do:
 1) make videos draggable along the ribbon + implement blank black screen when no video is played
 2) make sure that videos does not overlap with each other OR make them possible to overlap each other.
-3) check the biggest height of the uploaded videos and set the Video height to min value of max video height and 500px
-4) stylize play/pause button (maybe attach it to the Video component from below on black background)
-5) add sum duration, play speed and volume of the video (return default "controls" attribute is bad idea as it has duration of each video)
-6) restyle initial view of the app
-7) add possibility to remove videos (I think about little round cross on the top left of draggable div that became visible on mouse hover)
+3) stylize play/pause button (maybe attach it to the Video component from below on black background)
+4) add sum duration, play speed and volume of the video (return default "controls" attribute is bad idea as it has duration of each video)
+5) restyle initial view of the app
+6) add possibility to remove videos (I think about little round cross on the top left of draggable div that became visible on mouse hover)
 
 # Getting Started with Create React App
 

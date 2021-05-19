@@ -4,9 +4,12 @@ import { extractVideoModelFromBlob } from "utils/extractVideoModelFromBlob";
 import VideoPlayer from "./Components/VideoPlayer/VideoPlayer";
 import FrameRibbon from "./Components/FrameRibbon/FrameRibbon";
 
+const videoPlayerMaxHeight = 500;
+
 function App() {
   const [videos, setVideos] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [videoPlayerHeight, setVideoPlayerHeight] = useState(0);
   const currentVideoRef = useRef();
 
   // stands for all the time of the video, i.e. if user has 2 videos without a break 10 seconds long each,
@@ -22,7 +25,18 @@ function App() {
 
     newVideo.videoStart = newVideo.previousVideosDuration;
 
-    setVideos([...videos, newVideo]);
+    const updatedVideosArray = [...videos, newVideo];
+
+    setVideos(updatedVideosArray);
+
+    const newVideoPlayerHeight = updatedVideosArray
+      .map(v => v.height)
+      .reduce((reducer, height) => {
+        const newMaxInitialVideoHeight = height > reducer ? height : reducer;
+        return newMaxInitialVideoHeight < videoPlayerMaxHeight ? newMaxInitialVideoHeight : videoPlayerMaxHeight;
+      }, 0);
+
+    setVideoPlayerHeight(newVideoPlayerHeight);
   };
 
   /**
@@ -87,6 +101,7 @@ function App() {
           key={v.objectUrl}
           ref={i === currentVideoIndex ? currentVideoRef : null}
           videoSrc={v.objectUrl}
+          height={videoPlayerHeight}
           active={i === currentVideoIndex}
           onTimeUpdate={onVideoTimeUpdate}
           onEnded={onVideoEnded}
