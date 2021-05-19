@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useImperativeHandle, forwardRef } from "re
 import styles from "./VideoPlayer.module.scss";
 import classNames from "classnames";
 
-const VideoPlayer = ({ videoSrc, height , active, onTimeUpdate, onEnded }, ref) => {
+const VideoPlayer = ({ videoSrc, height, active, onTimeUpdate, onEnded }, ref) => {
   const [paused, setPaused] = useState(true);
   const videoRef = useRef();
 
@@ -30,8 +30,12 @@ const VideoPlayer = ({ videoSrc, height , active, onTimeUpdate, onEnded }, ref) 
     }
   };
 
+  if (!videoSrc) {
+    return <div style={{ backgroundColor: "black", height: `${height || 200}px` }}></div>;
+  }
+
   return (
-    <div className={classNames(styles["component-container"], !videoSrc || !active ? styles["no-content"] : "")}>
+    <div className={classNames(styles["component-container"], !active ? styles["no-content"] : "")}>
       <div className={styles["video-container"]}>
         <video
           {...(height ? { height } : {})}

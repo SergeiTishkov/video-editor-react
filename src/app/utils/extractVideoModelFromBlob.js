@@ -1,4 +1,4 @@
-import VideoModel from "dataModels/VideoModel"
+import VideoModel from "app/dataModels/VideoModel"
 
 export async function extractVideoModelFromBlob(videoBlob, imageInterval = 0.25) {
   return new Promise(async resolve => {

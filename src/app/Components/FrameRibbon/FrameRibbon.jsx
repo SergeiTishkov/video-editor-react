@@ -1,6 +1,6 @@
 import styles from "./FrameRibbon.module.scss";
 import classnames from "classnames";
-import DraggableVideoFrameRibbon from "Components/DraggableVideoFrameRibbon/DraggableVideoFrameRibbon";
+import DraggableVideoFrameRibbon from "app/Components/DraggableVideoFrameRibbon/DraggableVideoFrameRibbon";
 
 const FrameRibbon = ({ addedVideos, handleDrop, currentTime }) => {
   const handleDragEnterInternal = e => {

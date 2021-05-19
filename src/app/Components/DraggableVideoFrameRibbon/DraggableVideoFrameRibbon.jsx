@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { useHorizontalDragging } from "custonHooks/useHorizontalDragging";
-import FrameThumbnail from "Components/FrameThumbnail/FrameThumbnail";
+import { useHorizontalDragging } from "app/custonHooks/useHorizontalDragging";
+import FrameThumbnail from "app/Components/FrameThumbnail/FrameThumbnail";
 import styles from "./DraggableVideoFrameRibbon.module.scss";
 
 const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {

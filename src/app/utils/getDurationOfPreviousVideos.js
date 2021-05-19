@@ -1,4 +1,4 @@
-import VideoModel from "dataModels/VideoModel";
+import VideoModel from "app/dataModels/VideoModel";
 
 /**
  * Gets duration of previous videos

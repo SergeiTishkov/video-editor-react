@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
-import { extractVideoModelFromBlob } from "utils/extractVideoModelFromBlob";
-import VideoPlayer from "./Components/VideoPlayer/VideoPlayer";
-import FrameRibbon from "./Components/FrameRibbon/FrameRibbon";
+import { extractVideoModelFromBlob } from "app/utils/extractVideoModelFromBlob";
+import VideoPlayer from "./app/Components/VideoPlayer/VideoPlayer";
+import FrameRibbon from "./app/Components/FrameRibbon/FrameRibbon";
+// import blackFrameSrc from "../assets/images/black-frame-thumbnail.png";
 
 const videoPlayerMaxHeight = 500;
 
@@ -25,7 +26,7 @@ function App() {
 
     newVideo.videoStart = newVideo.previousVideosDuration;
 
-    const updatedVideosArray = [...videos, newVideo];
+    const updatedVideosArray = [...videos, newVideo, { height: 200, thumbnails: [/*blackFrameSrc, blackFrameSrc, blackFrameSrc, blackFrameSrc */] }];
 
     setVideos(updatedVideosArray);
 
