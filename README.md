@@ -9,6 +9,7 @@ Video Editor is a pet project created just for fun. Template for the app is Crea
 4) stylize play/pause button (maybe attach it to the Video component from below on black background)
 5) add sum duration, play speed and volume of the video (return default "controls" attribute is bad idea as it has duration of each video)
 6) restyle initial view of the app
+7) add possibility to remove videos (I think about little round cross on the top left of draggable div that became visible on mouse hover)
 
 # Getting Started with Create React App
 
