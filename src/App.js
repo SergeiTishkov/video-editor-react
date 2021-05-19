@@ -5,7 +5,7 @@ import VideoPlayerComponent from "./Components/VideoPlayerComponent/VideoPlayerC
 import FrameRibbonComponent from "./Components/FrameRibbonComponent/FrameRibbonComponent";
 
 function App() {
-  const [addedVideos, setAddedVideos] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const currentVideoRef = useRef();
 
@@ -18,9 +18,9 @@ function App() {
 
     const newVideo = await extractVideoModelFromBlob(videoBlob);
 
-    newVideo.previousVideosDuration = addedVideos.reduce((reducer, video) => reducer + video.duration, 0)
+    newVideo.previousVideosDuration = videos.reduce((reducer, video) => reducer + video.duration, 0)
 
-    setAddedVideos([...addedVideos, newVideo]);
+    setVideos([...videos, newVideo]);
   };
 
   /**
@@ -43,7 +43,7 @@ function App() {
    * @param {*} v - the <video> HTML element
    */
   const onVideoTimeUpdate = (e, v) => {
-    const allVideosBeforeCurrentOne = addedVideos.slice(0, currentVideoIndex);
+    const allVideosBeforeCurrentOne = videos.slice(0, currentVideoIndex);
 
     const lengthOfPreviousVideos = allVideosBeforeCurrentOne.reduce((acc, next) => acc + next.duration, 0);
 
@@ -55,7 +55,7 @@ function App() {
    * if the ended video was the pre-last.
    */
   const onVideoEnded = () => {
-    const nextVideoExists = !!addedVideos[currentVideoIndex + 1];
+    const nextVideoExists = !!videos[currentVideoIndex + 1];
 
     const nextVideoIndex = nextVideoExists ? currentVideoIndex + 1 : 0;
 
@@ -80,7 +80,7 @@ function App() {
 
   return (
     <div className="App">
-      {addedVideos.map((v, i) => (
+      {videos.map((v, i) => (
         <VideoPlayerComponent
           key={v.objectUrl}
           ref={i === currentVideoIndex ? currentVideoRef : null}
@@ -90,7 +90,7 @@ function App() {
           onEnded={onVideoEnded}
         />
       ))}
-      <FrameRibbonComponent addedVideos={addedVideos} handleDrop={handleFileDrop} currentTime={currentTime} />
+      <FrameRibbonComponent addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
     </div>
   );
 }
