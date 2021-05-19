@@ -1,9 +1,8 @@
 .drag-drop-zone {
-  padding: 7px;
   text-align: center;
   overflow: auto;
   white-space: nowrap;
-  background: rgb(20, 30, 43);
+  background: #141e2b;
   border-radius: 0.5rem;
   box-shadow: 5px 5px 10px #c0c0c0;
 
@@ -17,11 +16,6 @@
 
     .frame-ribbon-container{
       justify-content: flex-start;
-
-      .one-video-frame-ribbon {
-        display: flex;
-        flex-direction: row;
-      }
     }
 
     .play-marker {

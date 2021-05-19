@@ -7,7 +7,12 @@ export default class VideoModel {
   duration: number;
   height: number;
   width: number;
+
+  // below are props that are dynamically added / changed / deleted as the video is used in the app;
+  // basically this class is a view bag if Video that contains everything needed for video rendering
   ref?: MutableRefObject<undefined>;
+  clickPosition?: number;
+  previousVideosDuration?: number;
 
   /**
    * Constructor of VideoModel

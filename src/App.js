@@ -18,6 +18,8 @@ function App() {
 
     const newVideo = await extractVideoModelFromBlob(videoBlob);
 
+    newVideo.previousVideosDuration = addedVideos.reduce((reducer, video) => reducer + video.duration, 0)
+
     setAddedVideos([...addedVideos, newVideo]);
   };
 
@@ -78,7 +80,7 @@ function App() {
 
   return (
     <div className="App">
-      {addedVideos?.map((v, i) => (
+      {addedVideos.map((v, i) => (
         <VideoPlayerComponent
           key={v.objectUrl}
           ref={i === currentVideoIndex ? currentVideoRef : null}
