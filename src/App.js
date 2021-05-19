@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import { extractVideoModelFromBlob } from "utils/extractVideoModelFromBlob";
-import VideoPlayerComponent from "./Components/VideoPlayerComponent/VideoPlayerComponent";
-import FrameRibbonComponent from "./Components/FrameRibbonComponent/FrameRibbonComponent";
+import VideoPlayer from "./Components/VideoPlayer/VideoPlayer";
+import FrameRibbon from "./Components/FrameRibbon/FrameRibbon";
 
 function App() {
   const [videos, setVideos] = useState([]);
@@ -83,7 +83,7 @@ function App() {
   return (
     <div className="App">
       {videos.map((v, i) => (
-        <VideoPlayerComponent
+        <VideoPlayer
           key={v.objectUrl}
           ref={i === currentVideoIndex ? currentVideoRef : null}
           videoSrc={v.objectUrl}
@@ -92,7 +92,7 @@ function App() {
           onEnded={onVideoEnded}
         />
       ))}
-      <FrameRibbonComponent addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
+      <FrameRibbon addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
     </div>
   );
 }

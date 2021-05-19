@@ -1,11 +1,11 @@
-import styles from "./ThumbnailComponent.module.scss";
+import styles from "./FrameThumbnail.module.scss";
 
 /**
  * Component that draws a frame of a video
  * @param {{imgSrc: string; width: string}} props - width is a number between 0 and 25
  * @returns
  */
-const ThumbnailComponent = ({ imgSrc, width = 25 }) => {
+const FrameThumbnail = ({ imgSrc, width = 25 }) => {
   if (typeof width !== "number" || width < 0 || width > 25) {
     throw new Error(`ThumbnailComponent - width prop must be a number between 0 and 25, but it was ${width}`);
   }
@@ -17,4 +17,4 @@ const ThumbnailComponent = ({ imgSrc, width = 25 }) => {
   );
 };
 
-export default ThumbnailComponent;
+export default FrameThumbnail;

@@ -1,5 +1,5 @@
 import { useState, useRef, useImperativeHandle, forwardRef } from "react";
-import styles from "./VideoPlayerComponent.module.scss";
+import styles from "./VideoPlayer.module.scss";
 import classNames from "classnames";
 
 const VideoPlayerComponent = ({ videoSrc, active, onTimeUpdate, onEnded }, ref) => {

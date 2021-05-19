@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useHorizontalDragging } from "custonHooks/useHorizontalDragging";
-import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent";
+import FrameThumbnail from "Components/FrameThumbnail/FrameThumbnail";
 import styles from "./DraggableVideoFrameRibbon.module.scss";
 
 const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {
@@ -35,7 +35,7 @@ const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {
       onDragStart={() => console.log("DIV IS BEING DRAGGED")}
     >
       {videoModel.thumbnails.map((t, i, a) => (
-        <ThumbnailComponent key={`${videoModel.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, videoModel)} />
+        <FrameThumbnail key={`${videoModel.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, videoModel)} />
       ))}
     </div>
   );

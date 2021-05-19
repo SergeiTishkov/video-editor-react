@@ -1,8 +1,8 @@
-import styles from "./FrameRibbonComponent.module.scss";
+import styles from "./FrameRibbon.module.scss";
 import classnames from "classnames";
 import DraggableVideoFrameRibbon from "Components/DraggableVideoFrameRibbon/DraggableVideoFrameRibbon";
 
-const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
+const FrameRibbon = ({ addedVideos, handleDrop, currentTime }) => {
   const handleDragEnterInternal = e => {
     e.preventDefault();
     e.stopPropagation();
@@ -50,4 +50,4 @@ const FrameRibbonComponent = ({ addedVideos, handleDrop, currentTime }) => {
   );
 };
 
-export default FrameRibbonComponent;
+export default FrameRibbon;
