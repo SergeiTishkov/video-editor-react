@@ -3,7 +3,7 @@
 Video Editor is a pet project created just for fun. Template for the app is Create React App.
 
 # To Do:
-1) make videos draggable along the ribbon + implement blank black screen when no video is played
+1) implement blank black screen when no video is played
 2) make sure that videos does not overlap with each other OR make them possible to overlap each other.
 3) stylize play/pause button (maybe attach it to the Video component from below on black background)
 4) add sum duration, play speed and volume of the video (return default "controls" attribute is bad idea as it has duration of each video)
