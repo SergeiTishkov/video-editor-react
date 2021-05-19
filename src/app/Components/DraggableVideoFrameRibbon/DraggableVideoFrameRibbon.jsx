@@ -31,8 +31,6 @@ const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {
         backgroundColor: "#141e2b"
       }}
       className={styles["one-video-frame-ribbon"]}
-      draggable
-      onDragStart={() => console.log("DIV IS BEING DRAGGED")}
     >
       {videoModel.thumbnails.map((t, i, a) => (
         <FrameThumbnail key={`${videoModel.objectUrl}-thumbnail-${i}`} imgSrc={t} width={getFrameThumbnailWidth(i, a, videoModel)} />
