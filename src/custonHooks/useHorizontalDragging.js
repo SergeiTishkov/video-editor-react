@@ -5,7 +5,7 @@ customized solution from:
 https://stackoverflow.com/questions/20926551/recommended-way-of-making-react-component-div-draggable
 */
 
-export function useHorizontalDragging(videoModel, dragCorrecter = 0) {
+export function useHorizontalDragging(videoModel, dragCorrecter = 0, onMouseMoveCallback) {
   const [isDragging, setIsDragging] = useState(false);
   const [x, setX] = useState(0);
 
@@ -16,7 +16,11 @@ export function useHorizontalDragging(videoModel, dragCorrecter = 0) {
       return;
     }
 
-    setX(e.x - videoModel.dragClickX + dragCorrecter);
+    const newX = e.x - videoModel.dragClickX + dragCorrecter;
+
+    setX(newX);
+
+    onMouseMoveCallback?.(newX, videoModel);
 
     e.stopPropagation();
     e.preventDefault();

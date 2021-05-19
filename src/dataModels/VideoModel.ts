@@ -34,6 +34,14 @@ export default class VideoModel {
   /** Total duration of all the videos that are before this one in the video player queue */
   previousVideosDuration?: number;
 
+  /** Number of seconds from the beginning of the global video player to this video start */
+  videoStart?: number;
+
+  /** Number of seconds from the beginning of the global video player to this video end */
+  get videoEnd(): number | undefined {
+    return (this.videoStart ?? 0) + this.duration;
+  }
+
   /**
    * Constructor of VideoModel
    * @param blob Blob that contains the video

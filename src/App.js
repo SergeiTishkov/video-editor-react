@@ -18,14 +18,16 @@ function App() {
 
     const newVideo = await extractVideoModelFromBlob(videoBlob);
 
-    newVideo.previousVideosDuration = videos.reduce((reducer, video) => reducer + video.duration, 0)
+    newVideo.previousVideosDuration = videos.reduce((reducer, video) => reducer + video.duration, 0);
+
+    newVideo.videoStart = newVideo.previousVideosDuration;
 
     setVideos([...videos, newVideo]);
   };
 
   /**
    * Saves dropped file to the state.
-   * @param {*} e Drag and drop event 
+   * @param {*} e Drag and drop event
    */
   const handleFileDrop = e => {
     for (const file of e.dataTransfer.files) {

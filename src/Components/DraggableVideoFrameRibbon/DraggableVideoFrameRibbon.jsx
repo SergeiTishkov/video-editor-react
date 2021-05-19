@@ -4,11 +4,16 @@ import ThumbnailComponent from "Components/ThumbnailComponent/ThumbnailComponent
 import styles from "./DraggableVideoFrameRibbon.module.scss";
 
 const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {
-  const previousVideosRibbonWidth = videoModel.previousVideosDuration * 100;
+  const onMouseMoveCallback = (newX, video) => {
+    video.videoStart = (newX + dragPositionFixInPx) / 100;
+  };
 
+  // this fix is required because the ribbons are basically a flexed row of relative div elements;
+  // it doesn't depend on the position of the previous video ribbons
+  const previousVideosRibbonWidth = videoModel.previousVideosDuration * 100;
   const xPositionRequiredFixInPx = dragPositionFixInPx - previousVideosRibbonWidth;
 
-  const [dragRef, x, isDragging] = useHorizontalDragging(videoModel, xPositionRequiredFixInPx);
+  const [dragRef, x, isDragging] = useHorizontalDragging(videoModel, xPositionRequiredFixInPx, onMouseMoveCallback);
 
   const isFirstRenderRef = useRef(true);
 
