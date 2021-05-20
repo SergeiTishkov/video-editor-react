@@ -53,7 +53,7 @@ const getFrameThumbnailWidth = (frameIndex, allFrames, videoModel) => {
 
   // we can do that because frame lasts for 0.25 seconds and its default width is 25 px
   // so 0.25s has 25 px width and, for example, 0.142s should have 14.2px of width
-  return lastFrameDuration * 100;
+  return (lastFrameDuration || frameDuration) * 100;
 };
 
 export default DraggableVideoFrameRibbon;
