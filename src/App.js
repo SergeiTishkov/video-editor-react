@@ -3,12 +3,19 @@ import "./App.css";
 import { extractVideoModelFromBlob } from "app/utils/extractVideoModelFromBlob";
 import VideoPlayer from "./app/Components/VideoPlayer/VideoPlayer";
 import FrameRibbon from "./app/Components/FrameRibbon/FrameRibbon";
-// import blackFrameSrc from "../assets/images/black-frame-thumbnail.png";
+import BlackVideoModel from "./app/dataModels/BlackVideoModel";
+import MainContext from "app/contexts/MainContext";
+import { VideoEvent } from "app/dataModels/VideoEvent";
 
 const videoPlayerMaxHeight = 500;
 
+let videoEventIdCounter = 0;
+
 function App() {
   const [videos, setVideos] = useState([]);
+  const [videoEvents, setVideoEvents] = useState([]);
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [paused, setPaused] = useState(true);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoPlayerHeight, setVideoPlayerHeight] = useState(0);
   const currentVideoRef = useRef();
@@ -26,7 +33,9 @@ function App() {
 
     newVideo.videoStart = newVideo.previousVideosDuration;
 
-    const updatedVideosArray = [...videos, newVideo, { height: 200, thumbnails: [/*blackFrameSrc, blackFrameSrc, blackFrameSrc, blackFrameSrc */] }];
+    const updatedVideosArray = [...videos, newVideo];
+
+    addEventsForNewVideo(newVideo);
 
     setVideos(updatedVideosArray);
 
@@ -38,6 +47,20 @@ function App() {
       }, 0);
 
     setVideoPlayerHeight(newVideoPlayerHeight);
+  };
+
+  const addEventsForNewVideo = newVideo => {
+    const { videoStart, videoEnd } = newVideo;
+
+    // new video will become the video with this index after setVideos hook call
+    const videoIndex = videos.length;
+
+    const videoStartEvent = new VideoEvent(++videoEventIdCounter, videoStart, "START", videoIndex, newVideo);
+    const videoEndEvent = new VideoEvent(++videoEventIdCounter, videoEnd, "END", videoIndex, newVideo);
+
+    const newVideoEvents = [...videoEvents, videoStartEvent, videoEndEvent].sort((a, b) => a.timeStamp - b.timeStamp);
+
+    setVideoEvents(newVideoEvents);
   };
 
   /**
@@ -81,12 +104,15 @@ function App() {
     if (nextVideoIndex === 0) {
       setCurrentTime(0);
     }
+
+    setPaused(true);
   };
 
   /**
    * Starts next video on the end of the previous one. If the ended video was the last one, it won't be started.
    * useEffect fires after setCurrentVideoIndex so it starts the <video> that is made visible by setCurrentVideoIndex.
    */
+  
   useEffect(() => {
     // if current video is loaded (false on just loaded web page) and is not the first one
     // (doesn't start the first video again after all videos are ended)
@@ -95,21 +121,38 @@ function App() {
     }
   }, [currentVideoIndex]);
 
+  const togglePlayPause = () => {
+    paused ? currentVideoRef.current.play() : currentVideoRef.current.pause();
+
+    setPaused(!paused);
+  };
+
+  const mainContextValue = { videos, setVideos };
+
   return (
-    <div className="App">
-      {videos.map((v, i) => (
-        <VideoPlayer
-          key={v.objectUrl}
-          ref={i === currentVideoIndex ? currentVideoRef : null}
-          videoSrc={v.objectUrl}
-          height={videoPlayerHeight}
-          active={i === currentVideoIndex}
-          onTimeUpdate={onVideoTimeUpdate}
-          onEnded={onVideoEnded}
-        />
-      ))}
-      <FrameRibbon addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
-    </div>
+    <MainContext.Provider value={mainContextValue}>
+      <div className="App">
+        {videos
+          .filter(v => v.duration)
+          .map((v, i) => (
+            <VideoPlayer
+              key={v.objectUrl}
+              ref={i === currentVideoIndex ? currentVideoRef : null}
+              video={v}
+              height={videoPlayerHeight}
+              active={i === currentVideoIndex}
+              onTimeUpdate={onVideoTimeUpdate}
+              // onEnded={onVideoEnded}
+            />
+          ))}
+        <div>
+          <button style={{ display: videos?.length ? "block" : "none", width: "100px", margin: "10px auto" }} onClick={togglePlayPause}>
+            {paused ? "PLAY" : "PAUSE"}
+          </button>
+        </div>
+        <FrameRibbon addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
+      </div>
+    </MainContext.Provider>
   );
 }
 
