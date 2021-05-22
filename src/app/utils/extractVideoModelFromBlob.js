@@ -2,7 +2,7 @@ import VideoModel from "app/dataModels/VideoModel"
 
 export async function extractVideoModelFromBlob(videoBlob, imageInterval = 0.25) {
   return new Promise(async resolve => {
-    let videoObjectUrl = URL.createObjectURL(videoBlob);
+    let videoObjectUrl = URL.createObjectURL(videoBlob)// + "#t=3,7";
     let video = document.createElement("video");
 
     let seekResolve;

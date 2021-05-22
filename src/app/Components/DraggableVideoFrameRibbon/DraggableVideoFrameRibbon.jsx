@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { useHorizontalDragging } from "app/custonHooks/useHorizontalDragging";
 import FrameThumbnail from "app/Components/FrameThumbnail/FrameThumbnail";
 import styles from "./DraggableVideoFrameRibbon.module.scss";
+import MainContext from "app/contexts/MainContext";
 
 const DraggableVideoFrameRibbon = ({ videoModel, dragPositionFixInPx }) => {
+  const { videos, setVideos } = useContext(MainContext);
+  
   const onMouseMoveCallback = (newX, video) => {
     video.videoStart = (newX + dragPositionFixInPx) / 100;
   };
