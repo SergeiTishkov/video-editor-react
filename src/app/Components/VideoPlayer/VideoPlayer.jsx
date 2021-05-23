@@ -15,7 +15,7 @@ const VideoPlayer = ({ video: { objectUrl: videoSrc, duration }, height, active,
 
   if (!videoSrc) {
     return (
-      <div className={styles["component-container"]}>
+      <div className={classNames(styles["component-container"], !active ? styles["no-content"] : "")}>
         <div style={{ display: active ? "block" : "none", backgroundColor: "black", height: `${height || 200}px`, width: `${(height || 200) * 1.5}px` }} />
       </div>
     );
