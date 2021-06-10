@@ -1,29 +1,17 @@
 import { MutableRefObject } from "react";
+import { IVideoDuration } from "./abstractions/IVideoDuration";
+
+let idCounter: number = 1;
 
 /**
  * Contains all the data required for one Video render
  */
-export default class VideoModel {
-  /**Blob that contains the video content and type */
-  blob: Blob;
+export default class VideoModel implements IVideoDuration {
+  id: string;
 
-  /**URL of the browser-sourced video blob */
-  objectUrl: string;
-
-  /**Array of stringified src of all the frame thumbnails of the video */
-  thumbnails: string[];
-
-  /** Duration of the video */
-  duration: number;
-
-  /** Default height of the video */
-  height: number;
-
-  /** Default width of the video */
-  width: number;
-
-  // below are props that are dynamically added / changed / deleted as the video is used in the app;
-  // basically this class is a view bag if Video that contains everything needed for video rendering
+  get isBlackVideo(): boolean {
+    return false;
+  }
 
   /** React ref to the <video> that renders this video */
   ref?: MutableRefObject<undefined>;
@@ -44,19 +32,21 @@ export default class VideoModel {
 
   /**
    * Constructor of VideoModel
-   * @param blob Blob that contains the video
-   * @param objectUrl URL that is prepared by window object and can be used in src
-   * @param thumbnails Stringified thumbnails of each 0.25 seconds of the video, can be used in src
+   * @param blob Blob that contains the video  content and type
+   * @param objectUrl URL that is prepared by window object and can be used in video HTML tag src attribute
+   * @param thumbnails Stringified src thumbnails of each 0.25 seconds of the video, can be used in src
    * @param duration Duration of the video
    * @param height Height of the video
    * @param width Width of the video
    */
-  constructor(blob: Blob, objectUrl: string, thumbnails: string[], duration: number, height: number, width: number) {
-    this.blob = blob;
-    this.objectUrl = objectUrl;
-    this.thumbnails = thumbnails;
-    this.duration = duration;
-    this.height = height;
-    this.width = width;
+  constructor(
+    public blob: Blob,
+    public objectUrl: string,
+    public thumbnails: string[],
+    public duration: number,
+    public height: number,
+    public width: number
+  ) {
+    this.id = `video-${idCounter++}`;
   }
 }

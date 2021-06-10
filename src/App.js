@@ -3,18 +3,33 @@ import "./App.css";
 import { extractVideoModelFromBlob } from "app/utils/extractVideoModelFromBlob";
 import VideoPlayer from "./app/Components/VideoPlayer/VideoPlayer";
 import FrameRibbon from "./app/Components/FrameRibbon/FrameRibbon";
-import BlackVideoModel from "./app/dataModels/BlackVideoModel";
+import { BlackVideoModel } from "app/dataModels/BlackVideoModel";
 import MainContext from "app/contexts/MainContext";
 import { VideoEvent } from "app/dataModels/VideoEvent";
 
 const videoPlayerMaxHeight = 500;
 
-let videoEventIdCounter = 0;
+const updateBlackVideoDuration = (blackVideo, newVideo, videos) => {
+  const otherVideosSumDuration = [...videos, newVideo].reduce((r, v) => r + v.duration, 0);
+  blackVideo.duration = otherVideosSumDuration;
+};
+
+const getAllEventsWithNewVideo = (newVideo, allVideoEvents) => {
+  const { start, end } = VideoEvent.fromVideo(newVideo);
+
+  const newVideoEvents = [...allVideoEvents, start, end].sort((a, b) => a.timeStamp - b.timeStamp);
+
+  return newVideoEvents;
+};
 
 function App() {
+  // this video model will be used in gaps between the videos;
+  const blackVideo = new BlackVideoModel(0);
+  const { start: blackVideoStartEvent, end: blackVideoEndEvent } = VideoEvent.fromVideo(blackVideo);
+
   const [videos, setVideos] = useState([]);
-  const [videoEvents, setVideoEvents] = useState([]);
-  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [videoEvents, setVideoEvents] = useState([blackVideoStartEvent, blackVideoEndEvent]);
+
   const [paused, setPaused] = useState(true);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoPlayerHeight, setVideoPlayerHeight] = useState(0);
@@ -29,15 +44,18 @@ function App() {
 
     const newVideo = await extractVideoModelFromBlob(videoBlob);
 
+    updateBlackVideoDuration(blackVideo, newVideo, videos);
+
     newVideo.previousVideosDuration = videos.reduce((reducer, video) => reducer + video.duration, 0);
 
     newVideo.videoStart = newVideo.previousVideosDuration;
 
     const updatedVideosArray = [...videos, newVideo];
 
-    addEventsForNewVideo(newVideo);
+    const updatedEvents = getAllEventsWithNewVideo(newVideo, videoEvents);
 
     setVideos(updatedVideosArray);
+    setVideoEvents(updatedEvents);
 
     const newVideoPlayerHeight = updatedVideosArray
       .map(v => v.height)
@@ -47,20 +65,6 @@ function App() {
       }, 0);
 
     setVideoPlayerHeight(newVideoPlayerHeight);
-  };
-
-  const addEventsForNewVideo = newVideo => {
-    const { videoStart, videoEnd } = newVideo;
-
-    // new video will become the video with this index after setVideos hook call
-    const videoIndex = videos.length;
-
-    const videoStartEvent = new VideoEvent(++videoEventIdCounter, videoStart, "START", videoIndex, newVideo);
-    const videoEndEvent = new VideoEvent(++videoEventIdCounter, videoEnd, "END", videoIndex, newVideo);
-
-    const newVideoEvents = [...videoEvents, videoStartEvent, videoEndEvent].sort((a, b) => a.timeStamp - b.timeStamp);
-
-    setVideoEvents(newVideoEvents);
   };
 
   /**
@@ -112,7 +116,6 @@ function App() {
    * Starts next video on the end of the previous one. If the ended video was the last one, it won't be started.
    * useEffect fires after setCurrentVideoIndex so it starts the <video> that is made visible by setCurrentVideoIndex.
    */
-  
   useEffect(() => {
     // if current video is loaded (false on just loaded web page) and is not the first one
     // (doesn't start the first video again after all videos are ended)
@@ -127,12 +130,14 @@ function App() {
     setPaused(!paused);
   };
 
-  const mainContextValue = { videos, setVideos };
+  const mainContextValue = { blackVideo, videos, setVideos, paused, setPaused, videoEvents, setVideoEvents };
+
+  const videosWithBlackPhoneVideo = [blackVideo, ...videos];
 
   return (
     <MainContext.Provider value={mainContextValue}>
       <div className="App">
-        {videos
+        {videosWithBlackPhoneVideo
           .filter(v => v.duration)
           .map((v, i) => (
             <VideoPlayer
@@ -146,11 +151,13 @@ function App() {
             />
           ))}
         <div>
-          <button style={{ display: videos?.length ? "block" : "none", width: "100px", margin: "10px auto" }} onClick={togglePlayPause}>
-            {paused ? "PLAY" : "PAUSE"}
-          </button>
+          {videos.length && (
+            <button style={{ display: videos?.length ? "block" : "none", width: "100px", margin: "10px auto" }} onClick={togglePlayPause}>
+              {paused ? "PLAY" : "PAUSE"}
+            </button>
+          )}
         </div>
-        <FrameRibbon addedVideos={videos} handleDrop={handleFileDrop} currentTime={currentTime} />
+        <FrameRibbon videos={videosWithBlackPhoneVideo} handleDrop={handleFileDrop} currentTime={currentTime} />
       </div>
     </MainContext.Provider>
   );

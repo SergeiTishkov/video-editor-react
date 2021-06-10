@@ -5,7 +5,7 @@ customized solution from:
 https://stackoverflow.com/questions/20926551/recommended-way-of-making-react-component-div-draggable
 */
 
-export function useHorizontalDragging(videoModel, dragCorrecter = 0, onMouseMoveCallback) {
+export function useHorizontalDragging(videoModel, dragCorrecter = 0, onMouseDownCallback, onMouseMoveCallback, onMouseUpCallback) {
   const [isDragging, setIsDragging] = useState(false);
   const [x, setX] = useState(0);
 
@@ -29,12 +29,15 @@ export function useHorizontalDragging(videoModel, dragCorrecter = 0, onMouseMove
   function onMouseUp(e) {
     setIsDragging(false);
     delete videoModel.dragClickX;
+
+    onMouseUpCallback?.(videoModel);
+
     e.stopPropagation();
     e.preventDefault();
   }
 
   function onMouseDown(e) {
-    if (e.button !== 0) {
+    if (e.button !== 0 || videoModel.isBlackVideo) {
       return;
     }
 
@@ -42,10 +45,12 @@ export function useHorizontalDragging(videoModel, dragCorrecter = 0, onMouseMove
 
     let draggedRect = ref.current.getBoundingClientRect();
 
-    // if you click 15px from left brim of the dragged tag to start drag, this value will be 15;
-    // I can't use it as state because I reset it on each custom state call that happens tens of times per second
-    // plus I don't need dragClickX as state outside
+    // if you click 15px from left brim of the dragged tag to start drag, this value will be 15.
+    // You can't use it as state because it is reset on each custom hook call that happens tens of times per second
+    // plus you don't need dragClickX as state outside
     videoModel.dragClickX = e.x - draggedRect.left;
+
+    onMouseDownCallback?.(videoModel);
 
     e.stopPropagation();
     e.preventDefault();
